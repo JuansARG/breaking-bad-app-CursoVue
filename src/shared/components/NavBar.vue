@@ -2,25 +2,34 @@
 import type { RouterLink } from "@/router/link-routes";
 
 interface Props {
-    links : RouterLink[];
-    title?: string;
+    links    : RouterLink[];
+    title?   : string;
+    showIcon?: boolean;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+    showIcon: true,
+    links: () => [],
+});
 
 </script>
 
 <template>
     <nav>
-        <img src="@/assets/logo.svg" alt="Vue Logo" height="30" width="30">
-        <span>{{ props.title || "Vue 3" }}</span>
+        <img 
+            v-if="props.showIcon" 
+            src="@/assets/logo.svg" 
+            alt="Vue Logo" 
+            height="30" 
+            width="30">
+        <span v-if="props.title" >{{ props.title }}</span>
 
         <RouterLink
             v-for="link of links"
             :key="link.path"
             :to="link.path"
         >
-            {{ link.title }}
+        {{ link.title }} |
         </RouterLink>
 
     </nav>

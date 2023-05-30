@@ -7,11 +7,9 @@ import { routeLinks } from "./router/link-routes";
 
   <div class="wrapper">
 
-    <h1>App.vue</h1>
-
     <header>
       <NavBar 
-        title="Breaking Bad App" 
+        title="Breaking Bad" 
         :links="routeLinks"
       />
     </header>
