@@ -9,7 +9,7 @@ import { routeLinks } from "./router/link-routes";
 
     <header>
       <NavBar 
-        title="Breaking Bad" 
+        title="Rick & Morty" 
         :links="routeLinks"
       />
     </header>

@@ -30,15 +30,26 @@ const routeLinks: RouterLink[] = characterRoute.children!
 </script>
 
 <template>
-    <h1>Personajes</h1>
+    <div>
+        <h1>Personajes</h1>
+    </div>
 
     <!-- NavBar -->
-    <NavBar 
-    :show-icon="false" 
-    :links="routeLinks" />
+    <NavBar :show-icon="false" :links="routeLinks" />
 
     <!-- RouterView + Suspense -->
-    <router-view></router-view>
+    <Suspense>
+        <RouterView/>
+    </Suspense>
 </template>
 
-<style scoped></style>
+<style scoped>
+div {
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    text-decoration: underline;
+}
+</style>
