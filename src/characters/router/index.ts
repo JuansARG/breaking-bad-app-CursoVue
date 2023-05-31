@@ -4,12 +4,14 @@ import CharacterId from "@/characters/pages/CharacterId.vue";
 import CharacterList from "../pages/CharacterList.vue";
 import CharacterSearch from "../pages/CharacterSearch.vue";
 
+const ROUTE_NAME = "/characters"; 
+
 export const characterRoute: RouteRecordRaw = {
-    path: "/characters",
+    path: `${ ROUTE_NAME }`,
     component: CharacterLayout,
     children: [
         { 
-            path: "by/id",
+            path: `${ ROUTE_NAME }/by/:id`,
             name: "character-id",
             component: CharacterId,
             props: {
@@ -18,7 +20,7 @@ export const characterRoute: RouteRecordRaw = {
             }
         },
         { 
-            path: "list",
+            path: `${ ROUTE_NAME }/list`,
             name: "character-list",
             component: CharacterList,
             props: {
@@ -27,7 +29,7 @@ export const characterRoute: RouteRecordRaw = {
             }
         },
         { 
-            path: "search",
+            path: `${ ROUTE_NAME }/search`,
             name: "character-search",
             component: CharacterSearch,
             props: {
@@ -36,5 +38,5 @@ export const characterRoute: RouteRecordRaw = {
             }
         }
     ],
-    redirect: "/characters/list"
+    redirect: `${ ROUTE_NAME }/list`
 }
