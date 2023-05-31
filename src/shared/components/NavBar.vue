@@ -41,21 +41,17 @@ nav {
     align-items: flex-start;
     display: flex;
     font-size: 1rem;
-    margin-top: 2rem;
+    padding-top: 2rem;
     text-align: center;
     width: 100vw;
 }
 
-img {
-    margin-right: .5rem;
+img, a {
+    padding-right: .5rem;
 }
 
 span {
-    margin-right: 1rem;
-}
-
-a {
-    margin-right: .5rem;
+    padding-right: 1rem;
 }
 
 span {

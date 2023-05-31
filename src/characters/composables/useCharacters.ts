@@ -5,7 +5,7 @@ import axios from "axios";
 
 const isLoading = ref<boolean>(true);
 const characters = ref<Characters[]>([]);
-const hasError = ref<boolean>(false);
+const isError = ref<boolean>(false);
 const errorMessage = ref<string>();
 
 export const useCharacters = () => {
@@ -28,7 +28,7 @@ export const useCharacters = () => {
             
         } catch (error) {
             isLoading.value = false;
-            hasError.value = true;
+            isError.value = true;
 
             if( axios.isAxiosError(error) ){
                 return errorMessage.value = error.message;
@@ -41,7 +41,7 @@ export const useCharacters = () => {
     return {
         characters,
         isLoading,
-        hasError,
+        isError,
         errorMessage,
         loadCharacters
     };

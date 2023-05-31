@@ -1,0 +1,35 @@
+<script setup lang="ts">
+import type { Result as Character } from "@/characters/interfaces/character";
+import { toRef } from "vue";
+
+
+const props = defineProps<{
+    character: Character
+}>();
+
+// toRef es exclusivo para capturar propiedades de props y aislar
+const character = toRef(props, "character");
+
+</script>
+
+<template>
+    <div class="character-card">
+        <img :src="character.image" :alt="character.name">
+        <h3>{{ character.name }}</h3>
+    </div>
+</template>
+
+
+<style scoped>
+.character-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+img {
+    width: 250px;
+    border-radius: 5px 5px 0px 0px;
+    box-shadow: 0px 2px 10px rgb(255, 255, 255, 0.1);
+}
+</style>
