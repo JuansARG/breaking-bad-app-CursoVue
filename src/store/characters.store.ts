@@ -20,10 +20,15 @@ interface Store {
         }
     };
 
-    // Methods
+    // Metodos de Characters
     startLoadingCharacters: () => void;
     loadedCharacters: ( data: Character[] ) => void;
     loadCharactersFailed: ( error: string ) => void;
+
+    // Metodos de Characters por IDs
+    startLoadingCharacter: () => void;
+    checkIdInStore: ( id: string ) => boolean;
+    loadedCharacter: ( character: Character ) => void;
 }
 
 // Initial state
@@ -43,7 +48,7 @@ const characterStore = reactive<Store>({
         list: {}
     },
 
-    // Methods
+    // Methods Characters
     async startLoadingCharacters(){
         try {
             const { data: { results: characters } } = await rickAndMortyApi.get<CharactersResponse>("character");
@@ -85,6 +90,24 @@ const characterStore = reactive<Store>({
             list: []
         };
     },
+
+    // Methods Ids
+    startLoadingCharacter(){
+        this.ids = {
+            ...this.ids,
+            isLoading: true,
+            isError: false,
+            errorMessage: null,
+        }
+    },
+    checkIdInStore( id ){
+        return !!this.ids.list[id];
+    },
+    loadedCharacter( character: Character ){
+        this.ids.isLoading = false;
+        this.ids.list[character.id] = character;
+    },
+
 });
 
 characterStore.startLoadingCharacters();
