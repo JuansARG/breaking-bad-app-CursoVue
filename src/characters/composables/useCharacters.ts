@@ -1,48 +1,52 @@
-import { onMounted, ref } from "vue";
-import rickAndMortyApi from "@/api/rickAndMortyApi";
-import type { CharactersResponse, Result as Characters } from "../interfaces/character";
-import axios from "axios";
+import { computed, ref } from 'vue';
+import type { Result as Character, CharactersResponse } from '../interfaces/character';
+import rickAndMortyApi from '@/api/rickAndMortyApi';
+import { useQuery } from '@tanstack/vue-query';
 
-const isLoading = ref<boolean>(true);
-const characters = ref<Characters[]>([]);
-const isError = ref<boolean>(false);
-const errorMessage = ref<string>();
 
-export const useCharacters = () => {
+const characters    = ref<Character[]>([]);
+const errorMessage  = ref<string | null>(null);
+const isError       = ref<boolean>(false);
 
-    onMounted( async() => {
-        await loadCharacters();
-    })
+const getCharacters = async (): Promise<Character[]> => {
+    if ( characters.value.length > 0 ) 
+    return characters.value;
 
-    const loadCharacters = async() => {
+    const { data: { results: charactersList } } = await rickAndMortyApi.get<CharactersResponse>("character");
+    return charactersList;
+};
 
-        if( characters.value.length > 0 ) return;
+const loadedCharacters = ( data: Character[] ) => {
+    errorMessage.value = null;
+    isError.value = false;
+    characters.value = data.filter( character => ![19].includes(character.id) );
+};
 
-        isLoading.value = true;
+const useCharacters = () => {
 
-        try {
-
-            const { data: { results } } = await rickAndMortyApi.get<CharactersResponse>("/character");
-            characters.value = results;
-            isLoading.value = false;
-            
-        } catch (error) {
-            isLoading.value = false;
-            isError.value = true;
-
-            if( axios.isAxiosError(error) ){
-                return errorMessage.value = error.message;
-            }
-
-            errorMessage.value = "Algo salio mal en el useCharacters...";
+    const { isLoading } = useQuery(
+        ["characters"],
+        getCharacters, 
+        {
+            onSuccess(data) {
+                loadedCharacters(data);
+            },
         }
-    }
+    );
+
 
     return {
+        // Properties
         characters,
-        isLoading,
-        isError,
         errorMessage,
-        loadCharacters
-    };
+        isError,
+        isLoading,
+
+        // Getters
+        count: computed(() => characters.value.length),
+
+        // Methods
+    }
 };
+
+    export default useCharacters;
